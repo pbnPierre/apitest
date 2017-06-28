@@ -6,8 +6,8 @@ final class Song {
 
     //lasy getter and setter
     public $identifier,
-        $name,
-        $email;
+           $name,
+           $email;
 
     private function __construct($name, $duration) {
         $this->generateId();
