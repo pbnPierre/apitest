@@ -8,14 +8,14 @@ final class User {
     public $name,
            $email;
 
-    private function __construct($identifier, $name, $email) {
+    private function __construct(string $name, string $email) {
         $this->generateId();
         $this->name = $name;
         $this->email = $email;
     }
 
-    public static function register($identifier, $name, $email) {
-        $user = new self($identifier, $name, $email);
+    public static function register(string $name, string $email) {
+        $user = new self($name, $email);
         return $user;
     }
 }

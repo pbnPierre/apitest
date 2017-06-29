@@ -5,9 +5,8 @@ final class Song {
     use Identifiable;
 
     //lasy getter and setter
-    public $identifier,
-           $name,
-           $email;
+    public $name,
+           $duration;
 
     private function __construct($name, $duration) {
         $this->generateId();
@@ -15,8 +14,8 @@ final class Song {
         $this->duration = $duration;
     }
 
-    public static function create($identifier, $name, $email) {
-        $user = new self($identifier, $name, $email);
-        return $user;
+    public static function create($name, $duration) {
+        $song = new self($name, $duration);
+        return $song;
     }
 }

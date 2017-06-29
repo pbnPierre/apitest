@@ -2,6 +2,6 @@
 namespace Deezer\Command;
 
 interface Command {
-    public function findAll(): array;
+    public function execute(): bool;
 }
 
