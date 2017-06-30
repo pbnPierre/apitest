@@ -1,0 +1,11 @@
+<?php
+$database = [
+    [
+        'host' => 'localhost',
+        'user' => 'root'
+        'callback' => [
+            'class' => \Deezer\HTTP\Controller\User::class,
+            'method' => 'index'
+        ]
+    ]
+];
