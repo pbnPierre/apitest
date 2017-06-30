@@ -9,13 +9,21 @@ final class User {
            $email;
 
     private function __construct(string $name, string $email) {
-        $this->generateId();
         $this->name = $name;
         $this->email = $email;
     }
 
     public static function register(string $name, string $email) {
         $user = new self($name, $email);
+        $user->generateId();
+
+        return $user;
+    }
+
+    public static function loadFromStorage(array $dbData) {
+        $user = new self($dbData['name'], $dbData['email']);
+        $user->id = $dbData['id'];
+
         return $user;
     }
 }

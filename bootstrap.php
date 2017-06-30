@@ -15,11 +15,8 @@ spl_autoload_register(function ($class) {
 
 $container = new \Deezer\DIC\SimpleDIC();
 
-$container->share('router', function() {
-    return new \Deezer\Router();
-});
 $container->share('notFoundResponse', function() {
-    $response = new \Deezer\HTTP\HTMLResponse('<img src="https://http.cat/404"/>');
+    $response = new \Deezer\HTTP\HTMLResponse('<h1>Meow :3 ?</h1><img src="https://http.cat/404"/>');
     $response->setStatusCode(404);
     return $response;
 });
@@ -28,5 +25,14 @@ $container->share('routing', function() {
     return $routing;
 });
 $container->share('pdo', function() {
-    return new PDO('sqlite:'. __DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'deezer.sqlite');
+    $pdo= new \PDO('sqlite:'. __DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'deezer.sqlite');
+    $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+    $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+    return $pdo;
+});
+$container->share('request', function() use ($container) {
+    return new \Deezer\HTTP\Request();
+});
+$container->share('router', function() use ($container) {
+    return new \Deezer\Router();
 });
