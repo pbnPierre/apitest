@@ -1,20 +1,22 @@
 <?php
 namespace Deezer\Query;
 
-abstract class AbstractModelModelQuery implements ModelQuery {
-    protected $pdo;
-
-    public function __construct(\PDO $pdo) {
-        $this->pdo = $pdo;
-    }
-
-    abstract protected function getTableName() : string ;
-
+abstract class AbstractModelQuery extends AbstractQuery implements ModelQuery {
     public function find($id) {
         $userData = $this->pdo->query(
             sprintf('SELECT * FROM %s WHERE id=%s', $this->getTableName(), $this->pdo->quote($id))
         )->fetchAll();
+        if(!isset($userData[0])) {
+            return false;
+        }
+
         return $this->hydrateItem($userData[0]);
+    }
+
+    public function findByIds(array $ids) {
+        $sql = sprintf("SELECT * FROM %s WHERE id IN ('%s')", $this->getTableName(), implode("','", $ids));
+        $dataBaseResults = $this->pdo->query($sql)->fetchAll();
+        return $this->hydrateItems($dataBaseResults);
     }
 
     public function findAll(int $offset = 0, int $limit = 20): array {
@@ -41,17 +43,5 @@ abstract class AbstractModelModelQuery implements ModelQuery {
     }
 
     abstract protected function hydrateItem(array $databaseResult);
-
-    protected function prepareQueryWithOffsetAndLimit(string $query, int $offset, int $limit) : string {
-        if ($offset !== 0) {
-            $query.= ' OFFSET '.$offset;
-        }
-
-        if ($limit !== 0) {
-            $query.= ' LIMIT '.$limit;
-        }
-
-        return $query;
-    }
 }
 

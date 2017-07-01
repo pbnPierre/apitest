@@ -12,8 +12,9 @@ $container->pdo->exec("CREATE TABLE user(
                        );");
 
 $container->pdo->exec("CREATE TABLE user_song(
-                           'user_id' TEXT NOT NULL UNIQUE REFERENCES user(id) ON DELETE CASCADE,
-                           'song_id' TEXT NOT NULL UNIQUE REFERENCES song(id) ON DELETE CASCADE
+                           'user_id' TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE,
+                           'song_id' TEXT NOT NULL REFERENCES song(id) ON DELETE CASCADE,
+                           UNIQUE (user_id, song_id) 
                         );
                         CREATE INDEX index_user_id_song ON user_song(user_id);");
 
@@ -29,9 +30,11 @@ $users = [
     ['Me Maillessailfe', 'me@gmail.com'],
 ];
 
+$userModels = [];
 foreach ($users as $userData) {
-    $userModel = \Deezer\Model\User::register($userData[0], $userData[1]);
-    $command = new \Deezer\Command\CreateUser($container->pdo, $userModel);
+    $user = \Deezer\Model\User::register($userData[0], $userData[1]);
+    $userModels[] = $user;
+    $command = new \Deezer\Command\CreateUser($container->pdo, $user);
     $command->execute();
 }
 
@@ -42,7 +45,12 @@ $songs = [
 ];
 
 foreach ($songs as $songData) {
-    $songModel = \Deezer\Model\Song::create($userData[0], $userData[1]);
-    $command = new \Deezer\Command\CreateSong($container->pdo, $songModel);
+    $song = \Deezer\Model\Song::create($songData[0], $songData[1]);
+    $command = new \Deezer\Command\CreateSong($container->pdo, $song);
     $command->execute();
+
+    foreach ($userModels as $user) {
+        $command = new \Deezer\Command\AddSongToUserFavorites($container->pdo, $user, $song);
+        $command->execute();
+    }
 }

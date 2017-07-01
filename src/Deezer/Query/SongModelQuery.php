@@ -3,7 +3,7 @@ namespace Deezer\Query;
 
 use Deezer\Model\Song;
 
-class SongModelQuery extends AbstractModelModelQuery {
+class SongModelQuery extends AbstractModelQuery {
     public function getTableName(): string {
         return 'song';
     }

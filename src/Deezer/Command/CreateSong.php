@@ -13,10 +13,10 @@ class CreateSong extends AbstractCommand {
 
     public function execute(): bool {
         return $this->pdo->exec(sprintf(
-            "INSERT INTO 'song' ('id', 'name', 'length') VALUES('%s', '%s', '%s')",
-            $this->song->getId(),
-            $this->song->name,
-            $this->song->length
+            "INSERT INTO 'song' ('id', 'name', 'length') VALUES(%s, %s, %d)",
+            $this->pdo->quote($this->song->getId()),
+            $this->pdo->quote($this->song->name),
+            $this->pdo->quote($this->song->length)
         ));
     }
 }

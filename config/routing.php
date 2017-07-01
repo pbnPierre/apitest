@@ -2,33 +2,50 @@
 $routing = [
     //User
     [
-        'match' => '/user',
+        'match' => '/users',
         'class' => \Deezer\Controller\User::class,
         'method' => 'index'
     ],
     [
-        'match' => '/user/offset/(\d+)/limit/(\d+)',
+        'match' => '/users/offset/(\d+)/limit/(\d+)',
         'class' => \Deezer\Controller\User::class,
         'method' => 'index'
     ],
     [
-        'match' => '/user/(\w+)',
+        'match' => '/users/(\w+)',
         'class' => \Deezer\Controller\User::class,
         'method' => 'get'
     ],
+    [
+        'match' => '/users/(\w+)/favoritesSongs',
+        'class' => \Deezer\Controller\User::class,
+        'method' => 'getFavoriteSongs'
+    ],
+    [
+        'match' => '/users/(\w+)/favoritesSongs/(\w+)',
+        'class' => \Deezer\Controller\User::class,
+        'method' => 'addSongToFavorite',
+        'httpMethod' => 'POST'
+    ],
+    [
+        'match' => '/users/(\w+)/favoritesSongs/(\w+)',
+        'class' => \Deezer\Controller\User::class,
+        'method' => 'removeFavoriteSong',
+        'httpMethod' => 'DELETE'
+    ],
     //Song
     [
-        'match' => '/song',
+        'match' => '/songs',
         'class' => \Deezer\Controller\Song::class,
         'method' => 'index'
     ],
     [
-        'match' => '/song/offset/(\d+)/limit/(\d+)',
+        'match' => '/songs/offset/(\d+)/limit/(\d+)',
         'class' => \Deezer\Controller\Song::class,
         'method' => 'index'
     ],
     [
-        'match' => '/song/(\w+)',
+        'match' => '/songs/(\w+)',
         'class' => \Deezer\Controller\Song::class,
         'method' => 'get'
     ]

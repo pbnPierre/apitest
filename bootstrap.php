@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 //PSR4 Simple autoloader
 spl_autoload_register(function ($class) {
@@ -16,8 +17,11 @@ spl_autoload_register(function ($class) {
 $container = new \Deezer\DIC\SimpleDIC();
 
 $container->share('notFoundResponse', function() {
-    $response = new \Deezer\HTTP\HTMLResponse('<h1>Meow :3 ?</h1><img src="https://http.cat/404"/>');
-    $response->setStatusCode(404);
+    $response = new \Deezer\HTTP\HTMLHTTPCodeResponse(404);
+    return $response;
+});
+$container->share('badRequestResponse', function() {
+    $response = new \Deezer\HTTP\HTMLHTTPCodeResponse(400);
     return $response;
 });
 $container->share('routing', function() {
