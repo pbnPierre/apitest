@@ -15,7 +15,7 @@ abstract class AbstractPaginatedController {
 
         $response = new JSONResponse($items);
         if ($offset  >= $items['count']) {
-            throw new \OutOfRangeException();
+            throw new \OutOfRangeException('Pagination Limit excedeed max item'.$items['count']);
         }
         $this->setLinksInHeader($response, $items['count'], $offset, $limit);
 

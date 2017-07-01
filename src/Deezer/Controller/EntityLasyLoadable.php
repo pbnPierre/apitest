@@ -12,7 +12,7 @@ Trait EntityLasyLoadable {
             $entity = $query->find($id);
 
             if (false === $entity) {
-                throw new \InvalidArgumentException();
+                throw new \InvalidArgumentException(sprintf('Entity %s Not found', $id));
             }
             $this->entity[$id] = $entity;
         }

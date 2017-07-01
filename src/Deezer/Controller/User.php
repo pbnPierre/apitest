@@ -52,7 +52,7 @@ class User extends AbstractPaginatedController {
         $songQuery = new SongModelQuery($pdo);
         $song = $songQuery->find($songId);
         if (false === $song) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException(sprintf('Song %s Not found', $songId));
         }
         return $song;
     }

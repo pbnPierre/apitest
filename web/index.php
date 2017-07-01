@@ -10,10 +10,13 @@ try {
     $response = $container->router->match($container, $_SERVER['PATH_INFO'], $_SERVER['REQUEST_METHOD']);
 } catch (\Deezer\HTTP\Exception\NotFoundException $e) {
     $response = $container->notFoundResponse;
+    $response->addHeader('X-Error', $e->getMessage());
 } catch (\InvalidArgumentException $e) {
     $response = $container->badRequestResponse;
+    $response->addHeader('X-Error', $e->getMessage());
 } catch (\OutOfRangeException $e) {
     $response = $container->badRequestResponse;
+    $response->addHeader('X-Error', $e->getMessage());
 }
 
 //Dirty and lasy mode to reset my database for tests
