@@ -1,5 +1,17 @@
 <?php
 $routing = [
+    //Proxy to avoid CORS issues
+    [
+        'match' => '/proxy',
+        'class' => \Deezer\Controller\Proxy::class,
+        'method' => 'index'
+    ],
+    //Front
+    [
+        'match' => '/front',
+        'class' => \Deezer\Controller\Front::class,
+        'method' => 'index'
+    ],
     //User
     [
         'match' => '/users',
