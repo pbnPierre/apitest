@@ -4,7 +4,7 @@ namespace Deezer\Query;
 abstract class AbstractModelQuery extends AbstractQuery implements ModelQuery {
     public function find($id) {
         $userData = $this->pdo->query(
-            sprintf('SELECT * FROM %s WHERE id=%s', $this->getTableName(), $this->pdo->quote($id))
+            sprintf('SELECT * FROM %s WHERE id=%s LIMIT 1', $this->getTableName(), $this->pdo->quote($id))
         )->fetchAll();
         if(!isset($userData[0])) {
             return false;
