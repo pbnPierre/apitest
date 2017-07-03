@@ -3,6 +3,7 @@ namespace Deezer;
 
 use Deezer\DIC\SimpleDIC;
 use Deezer\HTTP\Exception\NotFoundException;
+use Deezer\HTTP\Request;
 use Deezer\HTTP\Response;
 
 class Router {
@@ -27,11 +28,11 @@ class Router {
 
     }
 
-    public function match(SimpleDIC $container, $uri, $httpMethod): Response {
+    public function match(SimpleDIC $container, Request $request): Response {
         foreach ($this->routeConfigurations as $configuration) {
             $params = [];
-            if ($httpMethod === $configuration['httpMethod']
-                && 1 === preg_match('~^'.$configuration['match'].'/?$~', $uri, $params)) {
+            if ($request->getMethod() === $configuration['httpMethod']
+                && 1 === preg_match('~^'.$configuration['match'].'/?$~', $request->getUrl(), $params)) {
                 //Remove matched string from params
                 unset($params[0]);
                 return $this->callController($container, $configuration['class'], $configuration['method'], $params);

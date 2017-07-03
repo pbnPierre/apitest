@@ -7,7 +7,8 @@ foreach ($container->routing as $route)  {
 }
 
 try {
-    $response = $container->router->match($container, $_SERVER['PATH_INFO'], $_SERVER['REQUEST_METHOD']);
+    $request = new \Deezer\HTTP\Request();
+    $response = $container->router->match($container, $request);
 } catch (\Deezer\HTTP\Exception\NotFoundException $e) {
     $response = $container->notFoundResponse;
     $response->addHeader('X-Error', $e->getMessage());
